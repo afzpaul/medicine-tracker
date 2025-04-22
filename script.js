@@ -63,7 +63,7 @@ addForm.onsubmit = function(e) {
   navigate('today');
 };
 
-// Load Today's Medicines with Full Tap Area
+// Load Today's Medicines
 function loadToday() {
   document.getElementById("morningGroup").innerHTML = "";
   document.getElementById("nightGroup").innerHTML = "";
@@ -78,7 +78,6 @@ function loadToday() {
       const card = document.createElement("div");
       card.className = "card-entry";
 
-      // Tap area fix: Use data-index and event listener
       card.innerHTML = `
         <div class="medicine-info" data-index="${index}">
           <strong>${med.name}</strong><br>
@@ -105,7 +104,6 @@ function loadToday() {
     }
   });
 
-  // Make entire medicine-info clickable
   document.querySelectorAll(".medicine-info").forEach(item => {
     item.addEventListener("click", () => {
       const index = item.getAttribute("data-index");
@@ -138,7 +136,7 @@ function deleteMedicine(index) {
   }
 }
 
-// Logs Page Setup
+// Logs Page
 function setupLogs() {
   const datePicker = document.getElementById("logDatePicker");
   datePicker.value = "";
@@ -157,7 +155,7 @@ function setupLogs() {
   };
 }
 
-// Slide-up Modal Logic (With Tap Outside to Close)
+// Slide-Up Modal Logic
 function showMedicineDetails(index) {
   const meds = JSON.parse(localStorage.getItem("medicines")) || [];
   const med = meds[index];
@@ -174,7 +172,7 @@ function showMedicineDetails(index) {
   modal.classList.remove("hidden");
 }
 
-// Close Modal Function (Includes Tap Outside)
+// Close Modal
 function closeModal() {
   const modal = document.getElementById("medicineModal");
   modal.classList.remove("show");

@@ -6,8 +6,6 @@
   <title>Dog Medicine Tracker</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#407BFF">
 </head>
 <body>
   <!-- Welcome Screen -->
@@ -102,8 +100,8 @@
   <script>
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("service-worker.js")
-        .then(registration => console.log("Service Worker registered:", registration.scope))
-        .catch(error => console.log("Service Worker registration failed:", error));
+        .then(reg => console.log("SW registered:", reg.scope))
+        .catch(err => console.error("SW failed:", err));
     }
   </script>
 </body>

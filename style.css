@@ -151,6 +151,10 @@ form input, form select {
   background-color: #e9efff;
 }
 
+.medicine-info {
+  cursor: pointer;
+}
+
 /* Progress Bar */
 .progress-bar {
   background-color: #e0e0e0;
@@ -244,5 +248,14 @@ form input, form select {
   top: 1rem;
   right: 1rem;
   font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--text-color);
   cursor: pointer;
+  background: none;
+  border: none;
+  transition: color 0.3s;
+}
+
+.close-btn:hover {
+  color: red;
 }
