@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dog Medicine Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Welcome Screen -->
+  <div id="welcomeScreen" class="welcome-screen">
+    <img src="samoyed.png" alt="Cute Dog" class="dog-welcome-img">
+    <h1>Manage Your Dog’s Medications</h1>
+    <p>Keep track of your dog’s medications and schedule with ease.</p>
+    <button onclick="startApp()" class="primary-btn">Get Started</button>
+  </div>
+
+  <!-- Main App -->
+  <header class="app-header hidden">
+    <h2>Dog Medicine Tracker</h2>
+    <button id="themeToggle" class="theme-btn">☀️</button>
+  </header>
+
+  <main class="dashboard hidden">
+    <div class="card" onclick="navigate('today')">
+      <h3>Today's Medicines</h3>
+      <p>Check today's schedule</p>
+    </div>
+    <div class="card" onclick="navigate('add')">
+      <h3>Add Medicine</h3>
+      <p>Add new medicine schedule</p>
+    </div>
+    <div class="card" onclick="navigate('logs')">
+      <h3>View Logs</h3>
+      <p>Check past days with calendar picker</p>
+    </div>
+  </main>
+
+  <!-- Today Page -->
+  <section id="todayPage" class="hidden">
+    <h3>Today's Medicines</h3>
+    <div class="group">
+      <h4>Morning</h4>
+      <div id="morningGroup"></div>
+    </div>
+    <div class="group">
+      <h4>Night</h4>
+      <div id="nightGroup"></div>
+    </div>
+    <button onclick="goHome()" class="primary-btn">Back to Dashboard</button>
+  </section>
+
+  <!-- Add Medicine Page -->
+  <section id="addPage" class="hidden">
+    <h3>Add Medicine</h3>
+    <form id="addMedicineForm">
+      <input type="text" id="name" placeholder="Medicine Name" required />
+      <input type="text" id="dosage" placeholder="Dosage (e.g., 5mL)" required />
+      <input type="number" id="timesPerDay" placeholder="Times per day" required />
+      <select id="mealTime">
+        <option value="Before">Before Meal</option>
+        <option value="After">After Meal</option>
+      </select>
+      <select id="timeOfDay">
+        <option value="Morning">Morning</option>
+        <option value="Night">Night</option>
+        <option value="Morning, Night">Morning & Night</option>
+      </select>
+      <input type="number" id="duration" placeholder="How many days?" required />
+      <input type="date" id="startDate" required />
+      <button type="submit" class="primary-btn">Save</button>
+      <button type="button" onclick="goHome()" class="cancel-btn">Cancel</button>
+    </form>
+  </section>
+
+  <!-- Logs Page -->
+  <section id="logsPage" class="hidden">
+    <h3>Past Days Logs</h3>
+    <input type="date" id="logDatePicker" />
+    <div id="logsResult"></div>
+    <button onclick="goHome()" class="primary-btn">Back to Dashboard</button>
+  </section>
+
+  <script src="script.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js")
+        .then(registration => {
+          console.log("Service Worker registered with scope:", registration.scope);
+        })
+        .catch(error => {
+          console.log("Service Worker registration failed:", error);
+        });
+    }
+  </script>
+  
+</body>
+</html>
