@@ -6,7 +6,7 @@ const urlsToCache = [
   "/medicine-tracker/script.js",
   "/medicine-tracker/manifest.json",
   "/medicine-tracker/service-worker.js",
-  "/medicine-tracker/samoyed.png" // Replace this with your correct image file name if different
+  "/medicine-tracker/samoyed.png"
 ];
 
 // Install event - cache the app shell
@@ -19,7 +19,7 @@ self.addEventListener("install", event => {
   self.skipWaiting();
 });
 
-// Activate event - clean up old caches if any
+// Activate event - clean up old caches
 self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
@@ -35,13 +35,13 @@ self.addEventListener("activate", event => {
   self.clients.claim();
 });
 
-// Fetch event - serve cached content when offline
+// Fetch event - serve cached files
 self.addEventListener("fetch", event => {
   event.respondWith(
     caches.match(event.request).then(response => {
       return response || fetch(event.request);
     }).catch(() => {
-      // Optional: you can add an offline fallback page here if you want
+      // Optional: Offline fallback page if needed
     })
   );
 });

@@ -202,40 +202,47 @@ form input, form select {
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* Modal Styles */
-.modal {
+/* Slide-Up Modal Styles */
+.slide-modal {
   position: fixed;
-  top: 0;
   left: 0;
+  bottom: 0;
   width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  height: 0;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  transition: height 0.3s ease-in-out;
   z-index: 10;
 }
 
-.modal-content {
+.slide-modal-content {
   background-color: var(--card-bg);
   color: var(--text-color);
-  border-radius: 12px;
+  border-radius: 20px 20px 0 0;
   padding: 2rem;
-  width: 90%;
-  max-width: 400px;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
   position: relative;
-  animation: fadeIn 0.3s ease-in-out;
+  transform: translateY(100%);
+  transition: transform 0.3s ease-in-out;
 }
 
+/* Active State for Modal */
+.slide-modal.show {
+  height: 100%;
+}
+
+.slide-modal.show .slide-modal-content {
+  transform: translateY(0%);
+}
+
+/* Close Button */
 .close-btn {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   cursor: pointer;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
 }

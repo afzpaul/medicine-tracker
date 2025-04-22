@@ -63,7 +63,7 @@ addForm.onsubmit = function(e) {
   navigate('today');
 };
 
-// Load Today's Medicines (with Delete and Details Popup)
+// Load Today's Medicines (with Delete and Slide-up Details)
 function loadToday() {
   document.getElementById("morningGroup").innerHTML = "";
   document.getElementById("nightGroup").innerHTML = "";
@@ -78,6 +78,7 @@ function loadToday() {
       const card = document.createElement("div");
       card.className = "card-entry";
 
+      // Medicine Card Content
       card.innerHTML = `
         <div onclick="showMedicineDetails(${index})">
           <strong>${med.name}</strong><br>
@@ -129,7 +130,7 @@ function deleteMedicine(index) {
   }
 }
 
-// Logs Page
+// Logs Page Setup
 function setupLogs() {
   const datePicker = document.getElementById("logDatePicker");
   datePicker.value = "";
@@ -148,7 +149,7 @@ function setupLogs() {
   };
 }
 
-// Show Medicine Details (Popup/Modal)
+// Slide-up Modal Logic
 function showMedicineDetails(index) {
   const meds = JSON.parse(localStorage.getItem("medicines")) || [];
   const med = meds[index];
@@ -159,10 +160,17 @@ function showMedicineDetails(index) {
   document.getElementById("modalTime").textContent = med.timeOfDay;
   document.getElementById("modalDuration").textContent = med.duration;
   document.getElementById("modalStartDate").textContent = med.startDate;
-  document.getElementById("medicineModal").classList.remove("hidden");
+
+  const modal = document.getElementById("medicineModal");
+  modal.classList.add("show");
+  modal.classList.remove("hidden");
 }
 
-// Close Modal
+// Close Modal Function
 function closeModal() {
-  document.getElementById("medicineModal").classList.add("hidden");
+  const modal = document.getElementById("medicineModal");
+  modal.classList.remove("show");
+  setTimeout(() => {
+    modal.classList.add("hidden");
+  }, 300);
 }
