@@ -82,18 +82,27 @@
     <button onclick="goHome()" class="primary-btn">Back to Dashboard</button>
   </section>
 
+  <!-- Medicine Details Modal -->
+  <div id="medicineModal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h3 id="modalMedName"></h3>
+      <p><strong>Dosage:</strong> <span id="modalDosage"></span></p>
+      <p><strong>Times per Day:</strong> <span id="modalTimes"></span></p>
+      <p><strong>Before/After Meal:</strong> <span id="modalMeal"></span></p>
+      <p><strong>Time of Day:</strong> <span id="modalTime"></span></p>
+      <p><strong>Duration:</strong> <span id="modalDuration"></span> days</p>
+      <p><strong>Start Date:</strong> <span id="modalStartDate"></span></p>
+    </div>
+  </div>
+
   <script src="script.js"></script>
   <script>
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("service-worker.js")
-        .then(registration => {
-          console.log("Service Worker registered with scope:", registration.scope);
-        })
-        .catch(error => {
-          console.log("Service Worker registration failed:", error);
-        });
+        .then(registration => console.log("Service Worker registered:", registration.scope))
+        .catch(error => console.log("Service Worker registration failed:", error));
     }
   </script>
-  
 </body>
 </html>

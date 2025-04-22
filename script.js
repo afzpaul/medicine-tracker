@@ -60,10 +60,10 @@ addForm.onsubmit = function(e) {
   meds.push(med);
   localStorage.setItem("medicines", JSON.stringify(meds));
   addForm.reset();
-  navigate('today'); // Auto-refresh Today after saving
+  navigate('today');
 };
 
-// Load Today's Medicines (with Delete button)
+// Load Today's Medicines (with Delete and Details Popup)
 function loadToday() {
   document.getElementById("morningGroup").innerHTML = "";
   document.getElementById("nightGroup").innerHTML = "";
@@ -77,9 +77,9 @@ function loadToday() {
       const progress = Math.floor((dayDiff / med.duration) * 100);
       const card = document.createElement("div");
       card.className = "card-entry";
-      const isTaken = med.taken.find(entry => entry.date === today)?.status || false;
+
       card.innerHTML = `
-        <div>
+        <div onclick="showMedicineDetails(${index})">
           <strong>${med.name}</strong><br>
           Dosage: ${med.dosage}<br>
           Day ${dayDiff} of ${med.duration}
@@ -87,12 +87,14 @@ function loadToday() {
         </div>
         <div>
           <label>
-            <input type="checkbox" ${isTaken ? "checked" : ""} onchange="markTaken(${index}, '${today}', this.checked)">
+            <input type="checkbox" ${med.taken.find(entry => entry.date === today)?.status ? "checked" : ""} 
+              onchange="markTaken(${index}, '${today}', this.checked)">
             Taken
           </label>
           <button onclick="deleteMedicine(${index})" class="delete-btn">Delete</button>
         </div>
       `;
+
       if (med.timeOfDay.includes("Morning")) {
         document.getElementById("morningGroup").appendChild(card);
       }
@@ -103,17 +105,7 @@ function loadToday() {
   });
 }
 
-// Delete Medicine Function
-function deleteMedicine(index) {
-  if (confirm("Are you sure you want to delete this medicine?")) {
-    const meds = JSON.parse(localStorage.getItem("medicines")) || [];
-    meds.splice(index, 1); // Remove the medicine at the given index
-    localStorage.setItem("medicines", JSON.stringify(meds));
-    loadToday(); // Refresh the Today page after deleting
-  }
-}
-
-// Mark as Taken Logic
+// Mark as Taken
 function markTaken(index, date, status) {
   const meds = JSON.parse(localStorage.getItem("medicines"));
   meds[index].taken = meds[index].taken || [];
@@ -124,10 +116,20 @@ function markTaken(index, date, status) {
     meds[index].taken.push({ date: date, status: status });
   }
   localStorage.setItem("medicines", JSON.stringify(meds));
-  loadToday(); // Refresh after marking
+  loadToday();
 }
 
-// Past Logs Page
+// Delete Medicine
+function deleteMedicine(index) {
+  if (confirm("Are you sure you want to delete this medicine?")) {
+    const meds = JSON.parse(localStorage.getItem("medicines")) || [];
+    meds.splice(index, 1);
+    localStorage.setItem("medicines", JSON.stringify(meds));
+    loadToday();
+  }
+}
+
+// Logs Page
 function setupLogs() {
   const datePicker = document.getElementById("logDatePicker");
   datePicker.value = "";
@@ -144,4 +146,23 @@ function setupLogs() {
       logResult.innerHTML += `<div class="log-entry">${med.name} - <span class="${statusClass}">${statusText}</span></div>`;
     });
   };
+}
+
+// Show Medicine Details (Popup/Modal)
+function showMedicineDetails(index) {
+  const meds = JSON.parse(localStorage.getItem("medicines")) || [];
+  const med = meds[index];
+  document.getElementById("modalMedName").textContent = med.name;
+  document.getElementById("modalDosage").textContent = med.dosage;
+  document.getElementById("modalTimes").textContent = med.times;
+  document.getElementById("modalMeal").textContent = med.meal;
+  document.getElementById("modalTime").textContent = med.timeOfDay;
+  document.getElementById("modalDuration").textContent = med.duration;
+  document.getElementById("modalStartDate").textContent = med.startDate;
+  document.getElementById("medicineModal").classList.remove("hidden");
+}
+
+// Close Modal
+function closeModal() {
+  document.getElementById("medicineModal").classList.add("hidden");
 }
